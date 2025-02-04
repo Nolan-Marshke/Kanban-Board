@@ -1,9 +1,13 @@
-import jwtDecode, { JwtPayload } from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
+
+interface JwtPayload {
+  username: string;
+  exp?: number;
+}
 
 class AuthService {
-  private static TOKEN_KEY = 'auth_token'; 
+  private static TOKEN_KEY = 'auth_token';
 
-  
   getProfile() {
     const token = this.getToken();
     if (token) {
@@ -18,40 +22,36 @@ class AuthService {
     return null;
   }
 
-  
   loggedIn() {
     const token = this.getToken();
     return token ? !this.isTokenExpired(token) : false;
   }
 
-  
   isTokenExpired(token: string) {
     try {
       const decoded = jwtDecode<JwtPayload>(token);
       if (decoded.exp) {
-        const expirationTime = decoded.exp * 1000; 
+        const expirationTime = decoded.exp * 1000; // Convert to milliseconds
+        return Date.now() >= expirationTime;
       }
     } catch (error) {
       console.error('Error decoding token:', error);
     }
-    return true; 
+    return true;
   }
 
- 
   getToken(): string {
     return localStorage.getItem(AuthService.TOKEN_KEY) || '';
   }
 
-  
   login(idToken: string) {
-    localStorage.setItem(AuthService.TOKEN_KEY, idToken); 
-    window.location.href = '/'; 
+    localStorage.setItem(AuthService.TOKEN_KEY, idToken);
+    window.location.href = '/';
   }
 
-  
   logout() {
-    localStorage.removeItem(AuthService.TOKEN_KEY); 
-    window.location.href = '/login'; 
+    localStorage.removeItem(AuthService.TOKEN_KEY);
+    window.location.href = '/login';
   }
 }
 

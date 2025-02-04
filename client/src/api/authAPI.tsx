@@ -2,7 +2,7 @@ import { UserLogin } from "../interfaces/UserLogin";
 
 const login = async (userInfo: UserLogin) => {
   try {
-    const response = await fetch("http://localhost:3000/auth/login", {
+    const response = await fetch("/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -11,18 +11,21 @@ const login = async (userInfo: UserLogin) => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to log in");
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to log in");
     }
 
     const data = await response.json();
     
-    const token = data.token;
-    
-    localStorage.setItem("authToken", token);
-    console.log("Login successful");
-    return token;
+    if (data.token) {
+      localStorage.setItem("authToken", data.token);
+      return data.token;
+    } else {
+      throw new Error("No token received");
+    }
   } catch (error) {
     console.error("Login error:", error);
+    throw error;
   }
 };
 
