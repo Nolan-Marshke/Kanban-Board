@@ -1,7 +1,7 @@
 const { execSync } = require('child_process');
 
 // Function to run a command and log output
-function runCommand(command: string) {
+function runCommand(command) {
   console.log(`Running: ${command}`);
   try {
     execSync(command, { stdio: 'inherit' });
