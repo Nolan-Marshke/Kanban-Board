@@ -1,5 +1,3 @@
-server/src/server.ts - Fixed for ES modules
-
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -32,9 +30,9 @@ app.get('*', (_req, res) => {
 });
 
 // Sync database and start server
-const forceDatabaseRefresh = false;
+const forceDatabaseRefresh = process.env.NODE_ENV === 'development';
 
-sequelize.sync({force: forceDatabaseRefresh})
+sequelize.sync({ force: forceDatabaseRefresh })
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);

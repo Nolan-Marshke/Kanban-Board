@@ -22,16 +22,21 @@ function runCommand(command) {
   }
 }
 
-// Install server dependencies
-console.log('Installing server dependencies...');
+// Install dependencies
+console.log('Installing dependencies...');
+runCommand('npm install');
 runCommand('cd server && npm install');
-runCommand('cd server && npm install typescript --save-dev');
+runCommand('cd client && npm install');
 
 // Compile TypeScript
 console.log('Compiling TypeScript...');
-runCommand('cd server && npx tsc');
+runCommand('cd server && npm run build');
 
-// Create client dist directory with a static page
+// Build client
+console.log('Building client...');
+runCommand('cd client && npm run build');
+
+// Create client dist directory with a static page (fallback)
 console.log('Creating static client files...');
 const clientDistDir = path.join(__dirname, 'client', 'dist');
 if (!fs.existsSync(clientDistDir)) {
