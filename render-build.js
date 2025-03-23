@@ -23,13 +23,13 @@ console.log('Installing client dependencies...');
 runCommand('cd client && npm install');
 runCommand('cd client && npm install --save-dev vite@latest @vitejs/plugin-react@latest');
 
-// Create a simple build script for the client
-console.log('Creating build script for client...');
-runCommand('cd client && echo "import {build} from \'vite\'; build();" > build.mjs');
+// Update package.json script to make it more reliable
+console.log('Updating client build script...');
+runCommand('cd client && npm pkg set scripts.build:render="NODE_ENV=production npx vite build"');
 
-// Build the client using Node to run the build script
+// Build the client using npm script
 console.log('Building client...');
-runCommand('cd client && node build.mjs');
+runCommand('cd client && npm run build:render');
 
 // Build the server
 console.log('Building server...');
