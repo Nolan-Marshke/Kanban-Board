@@ -2,7 +2,7 @@ services:
   - type: web
     name: kanban-board
     env: node
-    buildCommand: node render-build.js
+    buildCommand: npm run render-build
     startCommand: cd server && npm start
     nodeVersion: 18.x
     envVars:
@@ -14,3 +14,8 @@ services:
         fromDatabase:
           name: kanban-db
           property: connectionString
+
+databases:
+  - name: kanban-db
+    databaseName: kanban_db
+    plan: free

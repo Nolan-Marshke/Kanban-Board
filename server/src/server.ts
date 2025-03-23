@@ -1,4 +1,4 @@
-const forceDatabaseRefresh = false;
+server/src/server.ts - Fixed for ES modules
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import routes from './routes/index.js';
 import { sequelize } from './models/index.js';
 
+// ES Modules fix for __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -31,6 +32,8 @@ app.get('*', (_req, res) => {
 });
 
 // Sync database and start server
+const forceDatabaseRefresh = false;
+
 sequelize.sync({force: forceDatabaseRefresh})
   .then(() => {
     app.listen(PORT, () => {

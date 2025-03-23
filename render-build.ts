@@ -1,12 +1,17 @@
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// In ES modules, we need to create __dirname and __filename
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Runs a command in the shell and logs output
  * @param {string} command - The command to execute
  */
-function runCommand(command) {
+function runCommand(command: string): void {
   console.log(`Running: ${command}`);
   try {
     execSync(command, { stdio: 'inherit' });
@@ -20,6 +25,10 @@ function runCommand(command) {
 console.log('Installing server dependencies...');
 runCommand('cd server && npm install');
 runCommand('cd server && npm install typescript --save-dev');
+
+// Compile TypeScript
+console.log('Compiling TypeScript...');
+runCommand('cd server && npx tsc');
 
 // Create client dist directory with a static page
 console.log('Creating static client files...');
@@ -92,46 +101,5 @@ const indexHtml = `
 `;
 
 fs.writeFileSync(path.join(clientDistDir, 'index.html'), indexHtml);
-
-// Create a simple server.js file directly
-console.log('Creating simple server file...');
-const serverDistDir = path.join(__dirname, 'server', 'dist');
-if (!fs.existsSync(serverDistDir)) {
-  fs.mkdirSync(serverDistDir, { recursive: true });
-}
-
-const simpleServerJs = `
-const express = require('express');
-const path = require('path');
-
-const app = express();
-const PORT = process.env.PORT || 3001;
-
-// Middleware
-app.use(express.json());
-
-// Simple API endpoint to confirm server is running
-app.get('/api/status', (req, res) => {
-  res.json({
-    status: 'ok',
-    message: 'Server is running correctly!',
-    environment: process.env.NODE_ENV || 'development'
-  });
-});
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../../client/dist')));
-
-// The "catchall" handler for any request
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
-});
-
-app.listen(PORT, () => {
-  console.log(\`Server is running on port \${PORT}\`);
-});
-`;
-
-fs.writeFileSync(path.join(serverDistDir, 'server.js'), simpleServerJs);
 
 console.log('Build completed successfully!');
