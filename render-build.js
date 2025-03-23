@@ -2,9 +2,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-
 const tsconfigPath = path.join(__dirname, 'client', 'tsconfig.json');
-
 
 let originalTsconfig = null;
 if (fs.existsSync(tsconfigPath)) {
@@ -12,7 +10,7 @@ if (fs.existsSync(tsconfigPath)) {
 }
 
 try {
-  
+  // Create a simplified tsconfig for the build process
   const simpleTsconfig = {
     "compilerOptions": {
       "target": "ES2020",
@@ -35,12 +33,12 @@ try {
     "references": [{ "path": "./tsconfig.node.json" }]
   };
 
-  
+  // Write the simplified config to file
   fs.writeFileSync(tsconfigPath, JSON.stringify(simpleTsconfig, null, 2));
 
   console.log('🔧 Temporary TypeScript configuration created for deployment');
 
-  
+  // Install dependencies
   console.log('📦 Installing dependencies...');
   execSync('npm install', { stdio: 'inherit' });
   
@@ -50,9 +48,12 @@ try {
   console.log('📦 Installing client dependencies...');
   execSync('cd client && npm install', { stdio: 'inherit' });
   
+  console.log('📦 Installing React type definitions...');
+  execSync('cd client && npm install --save-dev @types/react @types/react-dom', { stdio: 'inherit' });
+  
   console.log('🚀 Building the application...');
   // Skip TypeScript check during build
-  execSync('cd client && npx vite build --mode production', { stdio: 'inherit' });
+  execSync('cd client && npm run build:no-check', { stdio: 'inherit' });
   
   console.log('🚀 Building the server...');
   execSync('cd server && npm run build', { stdio: 'inherit' });
@@ -62,7 +63,7 @@ try {
   console.error('❌ Build failed:', error);
   process.exit(1);
 } finally {
-  
+  // Restore the original TypeScript configuration
   if (originalTsconfig) {
     fs.writeFileSync(tsconfigPath, originalTsconfig);
     console.log('🔄 Restored original TypeScript configuration');

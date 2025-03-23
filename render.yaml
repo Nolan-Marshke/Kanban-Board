@@ -2,7 +2,7 @@ services:
   - type: web
     name: kanban-board
     env: node
-    buildCommand: npm run render-deploy
+    buildCommand: node render-build.js
     startCommand: npm start
     envVars:
       - key: NODE_ENV
@@ -13,7 +13,3 @@ services:
           property: connectionString
       - key: JWT_SECRET_KEY
         generateValue: true
-
-databases:
-  - name: kanban-db
-    plan: free
