@@ -20,7 +20,20 @@ class AuthService {
   }
   
   isTokenExpired(token: string) {
-    
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+      
+      if (!decoded.exp) return true;
+      
+      
+      const expirationTime = decoded.exp * 1000; 
+      const currentTime = Date.now();
+      
+      return expirationTime < currentTime;
+    } catch (error) {
+      console.error('Token verification error:', error);
+      return true; 
+    }
   }
 
   getToken(): string {
