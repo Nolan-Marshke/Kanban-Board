@@ -14,8 +14,9 @@
     "client:dev": "cd client && npm run dev",
     "build": "npm run install && npm run client:build",
     "seed": "cd server && npm run seed",
-    "render-build": "npm install && npm run build",
-    "postinstall": "npm install --save @types/react @types/react-dom"
+    "postinstall": "npm install --save @types/react @types/react-dom",
+    "render-build": "npm install && cd client && npm install && npm run build:no-check && cd ../server && npm install && npm run build"
+    
   },
   "keywords": [],
   "author": "",
