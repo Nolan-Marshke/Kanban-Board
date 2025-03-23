@@ -12,7 +12,6 @@ class AuthService {
       return null;
     }
   }
-  }
 
   loggedIn() {
     const token = this.getToken();
@@ -46,7 +45,9 @@ class AuthService {
   }
 
   logout() {
-    
+    localStorage.removeItem('id_token');
+    window.location.assign('/login');
+  }
 }
 
 export default new AuthService();
