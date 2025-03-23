@@ -4,14 +4,20 @@ import { sequelize } from '../models/index.js';
 
 const seedAll = async (): Promise<void> => {
   try {
-    await sequelize.sync({ force: true });
+    
+    const force = process.env.NODE_ENV === 'production' ? false : true;
+    
+    await sequelize.sync({ force });
     console.log('\n----- DATABASE SYNCED -----\n');
     
-    await seedUsers();
-    console.log('\n----- USERS SEEDED -----\n');
     
-    await seedTickets();
-    console.log('\n----- TICKETS SEEDED -----\n');
+    if (process.env.SEED_DATA === 'true' || process.env.NODE_ENV !== 'production') {
+      await seedUsers();
+      console.log('\n----- USERS SEEDED -----\n');
+      
+      await seedTickets();
+      console.log('\n----- TICKETS SEEDED -----\n');
+    }
     
     process.exit(0);
   } catch (error) {
