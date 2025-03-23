@@ -4,9 +4,9 @@ declare module 'react' {
 }
 
 declare module 'react/jsx-runtime' {
-  export const jsx: any;
-  export const jsxs: any;
-  export const Fragment: any;
+  export const jsx: React.JSXElementConstructor<React.ReactNode>;
+  export const jsxs: React.JSXElementConstructor<React.ReactNode>;
+  export const Fragment: React.ComponentType<{children?: React.ReactNode}>;
 }
 
 declare module 'react-dom' {
