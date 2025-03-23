@@ -9,8 +9,17 @@ const login = async (userInfo: UserLogin) => {
       },
       body: JSON.stringify(userInfo),
     });
-   
 
+    if (!response.ok) {
+      throw new Error('Invalid login');
+    }
 
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Login Error', error);
+    throw error;
+  }
+};
 
 export { login };
