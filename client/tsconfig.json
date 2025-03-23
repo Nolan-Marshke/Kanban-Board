@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "esModuleInterop": true,
     "types": ["react", "react-dom"],
     "target": "ES2020",
