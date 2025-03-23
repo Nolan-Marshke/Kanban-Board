@@ -1,9 +1,10 @@
+// Plain JavaScript version for the render build
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// In ES modules, we need to create __dirname and __filename
+// Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -11,7 +12,7 @@ const __dirname = path.dirname(__filename);
  * Runs a command in the shell and logs output
  * @param {string} command - The command to execute
  */
-function runCommand(command: string): void {
+function runCommand(command) {
   console.log(`Running: ${command}`);
   try {
     execSync(command, { stdio: 'inherit' });

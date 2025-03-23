@@ -3,11 +3,14 @@
   "compilerOptions": {
     /* Modules */
     "rootDir": "src", /* Specify the root folder within your source files. */
+    "target": "ES2020",
     "module": "NodeNext", /* Ensure ES modules are generated */
     "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
 
     /* Emit */
-    "outDir": "dist" /* Specify an output folder for all emitted files. */
+    "outDir": "dist", /* Specify an output folder for all emitted files. */
+    "sourceMap": true
   },
   "include": ["src"],
   "typeRoots": ["./node_modules/@types", "./src/types"]
