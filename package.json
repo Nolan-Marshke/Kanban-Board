@@ -10,7 +10,7 @@
     "server": "cd server && npm start",
     "server:dev": "cd server && npm run dev",
     "install": "cd server && npm i && cd ../client && npm i",
-    "client:build": "cd client && npx vite build",
+    "client:build": "cd client && node node_modules/vite/bin/vite.js build",
     "client:dev": "cd client && npm run dev",
     "build": "npm run install && npm run client:build",
     "seed": "cd server && npm run seed",
@@ -29,6 +29,6 @@
     "wait-on": "^7.2.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": "18.x"
   }
 }
