@@ -18,14 +18,18 @@ function runCommand(command) {
 console.log('Installing dependencies...');
 runCommand('cd server && npm install');
 
-// For client, install vite and react plugin explicitly
+// For client, install dependencies including vite
 console.log('Installing client dependencies...');
 runCommand('cd client && npm install');
-runCommand('cd client && npm install --save-dev vite @vitejs/plugin-react');
+runCommand('cd client && npm install --save-dev vite@latest @vitejs/plugin-react@latest');
 
-// Build the client - use direct path to vite executable
+// Create a simple build script for the client
+console.log('Creating build script for client...');
+runCommand('cd client && echo "import {build} from \'vite\'; build();" > build.mjs');
+
+// Build the client using Node to run the build script
 console.log('Building client...');
-runCommand('cd client && node node_modules/vite/bin/vite.js build --emptyOutDir');
+runCommand('cd client && node build.mjs');
 
 // Build the server
 console.log('Building server...');
