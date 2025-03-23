@@ -1,11 +1,9 @@
 {
   "name": "main",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "render-build": "node render-build.js",
     "start": "cd server && npm start",
     "start:dev": "concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\"",
     "server": "cd server && npm start",
@@ -14,9 +12,7 @@
     "client:build": "cd client && node node_modules/vite/bin/vite.js build",
     "client:dev": "cd client && npm run dev",
     "build": "npm run install && npm run client:build",
-    "seed": "cd server && npm run seed",
-    "render-build": "node render-build.js",
-    "render-build-install": "npm install && npm run render-build"
+    "seed": "cd server && npm run seed"
   },
   "keywords": [],
   "author": "",
