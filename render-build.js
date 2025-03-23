@@ -1,10 +1,10 @@
-import { execSync } from 'child_process';
+const { execSync } = require('child_process');
 
 /**
  * Runs a command in the shell and logs output
- * @param command - The command to execute
+ * @param {string} command - The command to execute
  */
-function runCommand(command: string): void {
+function runCommand(command) {
   console.log(`Running: ${command}`);
   try {
     execSync(command, { stdio: 'inherit' });
